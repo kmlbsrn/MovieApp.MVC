@@ -1,0 +1,19 @@
+﻿
+/*.gradient-bg {
+    background-image: linear-gradient(to right, #4e4cb8, #2e9cca);
+}
+
+.form-input:focus {
+    border-color: #4e4cb8;
+    box-shadow: 0 0 0 2px rgba(78, 76, 184, 0.5);
+}
+
+.btn-register {
+    background-color: #4e4cb8;
+    box-shadow: 0 4px 6px rgba(78, 76, 184, 0.1);
+}
+
+    .btn-register:hover {
+        background-color: #2e9cca;
+    }
+*/

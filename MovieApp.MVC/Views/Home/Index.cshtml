@@ -1,0 +1,76 @@
+﻿@model SearchModel
+<div class="bg-gray-200 p-4 rounded-lg shadow-lg">
+    <h2 class="text-4xl font-bold mb-4 text-center text-purple-700">Welcome to MovieApp!</h2>
+    <p class="text-lg text-center text-gray-800">Explore the latest upcoming movies and enjoy your movie experience.</p>
+</div>
+
+<div class="flex justify-between mt-4">
+    <h3 class="text-2xl font-bold mt-4 text-purple-700">Upcoming Movies</h3>
+    <div class="flex items-center">
+        <form asp-controller="Movie" asp-action="Search" class="flex">
+            <input type="text" asp-for="Query" class="rounded-l-lg p-2 border-t border-b border-l text-gray-800 border-gray-200 bg-white focus:outline-none focus:border-purple-700" placeholder="Search movies...">
+            <button type="submit" class="px-4 rounded-r-lg bg-purple-700 text-white font-bold p-2 border-purple-900 border-t border-b border-r">Search</button>
+        </form>
+    </div>
+</div>
+
+<vc:up-coming-movies />
+
+<vc:get-top-rated-movies/>
+
+@section Scripts
+{
+    <script>
+        $('.addFavorite').on('click', function () {
+
+            var movieId = $(this).attr('data-movie-id');
+
+            console.log("movieId", movieId)
+            var isFavorite = $(this).attr('data-is-favorite');
+            var button = $(this);
+            $.ajax({
+                url: '/UserFavorites/add',
+                type: 'POST',
+                data: { Id: movieId },
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+
+        });
+
+        $('.changeFavorite').on('click', function () {
+            var movieId = $(this).attr('data-movie-id');
+            console.log("movieID:", movieId)
+
+            var isFavorite = $(this).attr('data-is-favorite');
+            var button = $(this);
+            $.ajax({
+                url: '/UserFavorites/ChangeFavorite',
+                type: 'POST',
+                data: { movieId: movieId },
+                success: function (data) {
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $('.slick-carousel').slick({
+                slidesToShow: 1, // Number of slides to show
+                slidesToScroll: 1, // Number of slides to scroll
+                prevArrow: '<button type="button" class="slick-prev">Previous</button>', // HTML for previous button
+                nextArrow: '<button type="button" class="slick-next">Next</button>' // HTML for next button
+            });
+        });
+
+
+    </script>
+}

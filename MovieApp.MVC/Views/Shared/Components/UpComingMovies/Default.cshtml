@@ -1,0 +1,212 @@
+﻿@model MovieListModel<MovieModel>
+
+<style>
+    /* SCSS styles */
+    @@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+    .body-style {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f3f4f6;
+        display: contents;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow-x: hidden;
+        /* Yalnızca yatay kaydırmayı etkinleştir */
+    }
+
+    .container_custom {
+        display: flex;
+        overflow-x: auto;
+        /* Yalnızca yatay kaydırmayı etkinleştir */
+        gap: 20px;
+        /* Kartlar arasındaki boşluk */
+        padding: 11px 10px;
+    }
+
+    .movie-poster {
+        flex: 0 0 auto;
+        /* Kartların boyutlarındaki esneklik */
+        width: 300px;
+        /* Kart genişliği */
+        height: 450px;
+        background-image: url('https://via.placeholder.com/300x450');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        filter: grayscale(50%);
+    }
+
+        .movie-poster:last-child {
+            margin-right: 0;
+        }
+
+        .movie-poster:hover {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+    .favorite-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+        .favorite-button:hover {
+            transform: scale(1.1);
+        }
+
+    .favorite-icon {
+        width: 30px;
+        height: 30px;
+        fill: #6d28d9;
+        transition: fill 0.3s ease;
+    }
+
+        .favorite-icon:hover {
+            fill: #4c1d95;
+        }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://via.placeholder.com/300x450');
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #fff;
+        z-index: 1;
+    }
+
+    .movie-poster:hover .overlay {
+        opacity: 1;
+    }
+
+    .poster-info {
+        max-width: 80%;
+    }
+
+    .poster-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    .poster-description {
+        font-size: 0.875rem;
+        margin-bottom: 10px;
+    }
+
+    .poster-button {
+        padding: 8px 16px;
+        background-color: #6d28d9;
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+    }
+
+        .poster-button:hover {
+            background-color: #4c1d95;
+        }
+
+    /* Webkit (Chrome, Safari, Opera) */
+    .container_custom::-webkit-scrollbar {
+        width: 12px;
+        /* Scrollbar genişliği */
+    }
+
+    .container_custom::-webkit-scrollbar-thumb {
+        background: #6d28d9;
+        /* Scrollbar başlık rengi */
+        border-radius: 10px;
+        /* Scrollbar kenar yarıçapı */
+    }
+
+        .container_custom::-webkit-scrollbar-thumb:hover {
+            /* background: #4c1d95; */
+            background: rgb(31 41 55/var(--tw-bg-opacity))
+            /* Scrollbar başlık rengi (üzerine gelindiğinde) */
+        }
+
+    .container_custom::-webkit-scrollbar-track {
+        background: #f3f4f6;
+        /* Scrollbar arka plan rengi */
+    }
+
+        .container_custom::-webkit-scrollbar-track:hover {
+            background: #f1f1f1;
+            /* Scrollbar arka plan rengi (üzerine gelindiğinde) */
+        }
+</style>
+
+
+
+
+<div class="col-span-1 md:col-span-2 lg:col-span-3">
+
+
+    <div class="container_custom">
+
+        @foreach (var movie in Model.Results)
+        {
+            <div class="movie-poster relative">
+                <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="@movie.Title" class="poster-image" />
+                <div class="overlay">
+                    <div class="poster-info">
+                        <h3 class="poster-title">@movie.OriginalTitle</h3>
+                        <p class="poster-description">@movie.Overview</p>
+                        <a class="poster-button" asp-controller="Movie" asp-action="Detail" asp-route-id="@movie.Id">Go Detail</a>
+                    </div>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (movie.IsFavorite)
+                        {
+                            <button class="favorite-button changeFavorite" data-movie-id="@movie.Id">
+                                <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="favorite-button addFavorite"  data-movie-id="@movie.Id">
+                                <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            </button>
+                        }
+
+
+
+                    }
+                </div>
+
+            </div>
+        }
+
+        <!-- Diğer kartlar buraya eklenecek -->
+    </div>
+</div>
+

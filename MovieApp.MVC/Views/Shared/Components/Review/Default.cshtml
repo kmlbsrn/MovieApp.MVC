@@ -1,0 +1,40 @@
+﻿@model AddReviewModel
+
+
+<!-- Review Section -->
+<div class="mt-8">
+    <h2 class="text-xl font-semibold mb-4">Reviews</h2>
+    @{Console.Write(User.IsLoggedIn().ToString());}}
+    @if (ViewBag.IsLoggedIn)
+    {
+        <div class="border border-red-500 rounded p-4 mb-4">
+            <p class="text-lg text-red-500">Please <a asp-controller="Auth" asp-action="register">login</a> to leave a review.</p>
+        </div>
+    }
+    else
+    {
+        <!-- Review Form -->
+        <form asp-controller="Review" asp-action="Add" method="post">
+            <input type="hidden" asp-for="MovieId" />
+            <div class="mb-4 border border-gray-300 rounded">
+                <textarea asp-for="Comment" id="comment" class="w-full p-2 rounded bg-transparent focus:outline-none focus:border-blue-500" rows="4" placeholder="Write your review here"></textarea>
+            </div>
+            <div class="mb-4">
+                <label for="rating" class="text-lg font-semibold">Rating:</label>
+                <div class="flex items-center">
+                    <input type="hidden" asp-for="Rating" id="rating"/>
+                    <i class="fas fa-star text-gray-400 hover:text-yellow-500 cursor-pointer fa-star-rating" data-value="1"></i>
+                    <i class="fas fa-star text-gray-400 hover:text-yellow-500 cursor-pointer fa-star-rating" data-value="2"></i>
+                    <i class="fas fa-star text-gray-400 hover:text-yellow-500 cursor-pointer fa-star-rating" data-value="3"></i>
+                    <i class="fas fa-star text-gray-400 hover:text-yellow-500 cursor-pointer fa-star-rating" data-value="4"></i>
+                    <i class="fas fa-star text-gray-400 hover:text-yellow-500 cursor-pointer fa-star-rating" data-value="5"></i>
+                    <span class="ml-2 text-lg font-semibold" id="ratingText">0</span>
+                </div>
+            </div>
+            <button id="submit" type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Submit Review</button>
+        </form>
+
+    }
+</div>
+
+

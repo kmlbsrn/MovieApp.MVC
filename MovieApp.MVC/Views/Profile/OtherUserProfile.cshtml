@@ -1,0 +1,76 @@
+﻿
+@model UserProfileInfoModel
+
+<div class="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+    <div class="p-8">
+        <div class="flex justify-between items-center mb-8">
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500"
+                         src="https://via.placeholder.com/150" alt="Profile Picture">
+                    <div class="absolute inset-0 rounded-full bg-black opacity-50 flex items-center justify-center">
+                        <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                  d="M10 12a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                            <path fill-rule="evenodd"
+                                  d="M10 2a8 8 0 100 16 8 8 0 000-16zM2 10a8 8 0 1116 0 8 8 0 01-16 0z"
+                                  clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-semibold text-gray-800">@Model.UserName</h1>
+                    <p class="text-gray-600">@Model.Email</p>
+                </div>
+            </div>
+            <button class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-full transition duration-200">
+                Edit Profile
+            </button>
+        </div>
+        <hr class="my-6 border-gray-300">
+        <div>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Favorite Films</h2>
+            <div class="grid grid-cols-3 gap-4">
+                @foreach (var movie in Model.UserFavorites)
+                {
+                    <div class="relative group flex flex-col">
+                        <img class="w-full rounded-lg shadow-lg transition duration-300 transform group-hover:scale-105"
+                             src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="Film Poster">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 bg-black bg-opacity-50 transition duration-300 group-hover:opacity-100">
+                            <p class="text-white text-lg font-semibold">@movie.Title</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <hr class="my-6 border-gray-300">
+        <div>
+            <h2 class="text-2xl font-semibold mb-4 text-gray-800">Recent Reviews</h2>
+            @foreach (var review in Model.UsersReviews)
+            {
+                <div class="flex items-center mb-8">
+                    <div class="h-24 w-24 rounded overflow-hidden flex-shrink-0">
+                        <img class="object-cover w-full h-full"
+                             src="https://image.tmdb.org/t/p/w500/@review.MoviePoster" alt="Movie Poster">
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-lg font-semibold text-gray-800 mb-1">@review.MovieName</p>
+                        <p class="text-gray-600">@review.ReviewText</p>
+
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            if (i < review.Rating)
+                            {
+                                <i class="fas fa-star text-yellow-500"></i>
+                            }
+                            else
+                            {
+                                <i class="far fa-star text-yellow-500"></i>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+﻿
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieApp - Register</title>
+    <!-- Kullanıcı tarafından sağlanan stil bağlantısı -->
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link href="~/css/carousel.css" rel="stylesheet" />
+    <link href="~/css/upcomingmovies.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~/css/moviecard.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css" integrity="sha512-6lLUdeQ5uheMFbWm3CP271l14RsX1xtx+J5x2yeIDkkiBpeVTNhTqijME7GgRKKi6hCqovwCoBTlRBEC20M8Mg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        .mt-10 {
+            margin-top: 3.4rem;
+        }
+
+        .bg-repeat {
+            background-repeat: repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gray-800">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="text-white text-2xl font-bold tracking-tight transition-colors delay-200 hover:text-indigo-300">
+                Movie<span class="text-indigo-300">App</span>
+            </a>
+
+            <!-- Menü -->
+            <ul class="flex space-x-4 text-white">
+            </ul>
+
+            <!-- Giriş ve Kayıt -->
+            <ul class="flex space-x-4 text-white">
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a href="#">Login</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Auth" asp-action="Register">Register</a>
+                    </li>
+                }
+                else
+                {
+
+                    @if (User.IsAdmin())
+                    {
+
+                        <li>
+                            <a  asp-area="Admin" asp-controller="Home" asp-action="Index" >Admin Panel</a>
+                        </li>
+                    }
+
+                    <li>
+                        <a asp-controller="Profile" asp-action="" asp-route-id="@User.GetUserId()" >@User.GetUserName()</a>
+                    </li>
+
+                    <li>
+                        <a asp-controller="Auth" asp-action="Logout">Logout</a>
+                    </li>
+
+                }
+
+
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container mx-auto py-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-3">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2 lg:col-span-1">
+                    <h4 class="text-xl font-semibold mb-4">Hakkımızda</h4>
+                    <p>MovieApp, film tutkunları için bir platformdur. En son film haberleri, incelemeleri ve daha fazlası için bizi takip edin.</p>
+                </div>
+                <div class="col-span-1">
+                    <h4 class="text-xl font-semibold mb-4">Bağlantılar</h4>
+                    <ul>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300">Anasayfa</a></li>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300">Hakkımızda</a></li>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300">Filmler</a></li>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300">İletişim</a></li>
+                    </ul>
+                </div>
+                <div class="col-span-1">
+                    <h4 class="text-xl font-semibold mb-4">Bize Ulaşın</h4>
+                    <p>Adres: 123 Sokak, Şehir, Ülke</p>
+                    <p>Email: info@movieapp.com</p>
+                    <p>Telefon: 123 456 7890</p>
+                </div>
+                <div class="col-span-1">
+                    <h4 class="text-xl font-semibold mb-4">Sosyal Medya</h4>
+                    <ul class="flex space-x-4">
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300"><i class="fab fa-facebook"></i></a></li>
+                        <li><a href="#" class="text-indigo-300 hover:text-indigo-500 transition-colors duration-300"><i class="fab fa-instagram"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mt-12 border-t border-gray-700 pt-6 text-center">
+            <p>&copy; 2024 MovieApp. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js" integrity="sha512-HGOnQO9+SP1V92SrtZfjqxxtLmVzqZpjFFekvzZVWoiASSQgSr4cw9Kqd2+l8Llp4Gm0G8GIFJ4ddwZilcdb8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <script>
+
+        $('document').ready(() => {
+            toastr.options = {
+                "closeButton": false,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": false,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+        });
+
+        @if (!string.IsNullOrWhiteSpace(TempData["SuccessMessage"]?.ToString()))
+        {
+            @:toastr.options.closeHtml = '<button class="closebtn"><i class="bi bi-x"></i></button>';
+            @:toastr.success("@TempData["SuccessMessage"]?.ToString()", "Bildirim:");
+        }
+
+    </script>
+</body>
+</html>
