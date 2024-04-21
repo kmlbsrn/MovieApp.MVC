@@ -1,1 +1,220 @@
 ﻿
+@model Tuple<List<FavoriteMovieModel>, List<UserCountModel>,GenreListModel>
+
+<div class="flex flex-wrap">
+    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Total Users</h2>
+            <div id="usersChart" style="width: 600px;height:400px;"></div>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">User Most Favorite Movies</h2>
+            <div id="userFavoriteChart" style="width: 700px;height:400px;"></div>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Revenue</h2>
+            <div id="revenueChart" style="width: 600px;height:400px;"></div>
+        </div>
+    </div>
+    <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-xl font-semibold mb-4">Popular Genres</h2>
+            <div id="moviesChart" style="width: 600px;height:400px;"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var usersChart = echarts.init(document.getElementById('usersChart'));
+            var userFavoriteChart = echarts.init(document.getElementById('userFavoriteChart'));
+            var revenueChart = echarts.init(document.getElementById('revenueChart'));
+            var moviesChart = echarts.init(document.getElementById('moviesChart'));
+
+
+
+            // ajax HomeControllers' GetMostUserFavoriteMovies action
+
+
+
+
+            var usersOption = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Jan', 'Feb', 'Mar', 'Ap', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: [@foreach (var item in Model.Item2)
+                        {
+                            <text>@item.UserCount,</text>
+                        }],
+                        type: 'bar'
+                    }
+                ]
+            };
+
+            console.log('@ViewBag.MostFavoriteMovies');
+            var userFavoriteOption = {
+                dataset: [
+                    {
+                        dimensions: ['Movie Name', 'Favorite Count'],
+                        source: [
+                            @foreach (var item in Model.Item1)
+                            {
+                                <text>['@Html.Encode(item.Title)', @item.FavoriteCount],</text>
+                            }
+                        ]
+                    },
+                    {
+                        transform: {
+                            type: 'sort',
+                            config: { dimension: 'Favorite Count', order: 'desc' }
+                        }
+                    }
+                ],
+                xAxis: {
+                    type: 'category',
+                    axisLabel: { interval: 0, rotate: 30 }
+                },
+                yAxis: {},
+                series: {
+                    type: 'bar',
+                    encode: { x: 'Movie Name', y: 'Favorite Count' },
+                    datasetIndex: 1
+                }
+            };
+
+            var revenueOption = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: [500, 800, 700, 900, 1200, 1000, 800],
+                        type: 'line'
+                    }
+                ]
+            };
+
+            moviesOption = {
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    top: '5%',
+                    left: 'center'
+                },
+                series: [
+                    {
+                        name: 'Access From',
+                        type: 'pie',
+                        radius: ['40%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
+                                show: true,
+                                fontSize: 40,
+                                fontWeight: 'bold'
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                           
+                            @foreach (var item in Model.Item3.Genres)
+                            {
+                                <text>{ value: @item.MovieCount, name: '@item.Name' },</text>
+                            }
+                           
+                        ]
+                    }
+                ]
+            };
+
+           
+
+            console.log(@ViewBag.MostFavoriteMovies);
+            userFavoiteOption = {
+                dataset: [
+                    {
+                        dimensions: ['Movie Name', 'Favorite Count'],
+                        source: [
+
+        @foreach (var item in Model.Item1)
+        {
+
+            <text>['@Html.Encode(item.Title)', @item.FavoriteCount], </text>
+        }
+
+                                            // ['Hannah Krause', 41, 'Engineer', 314, '2011-02-12'],
+                                            // ['Zhao Qian', 20, 'Teacher', 351, '2011-03-01'],
+                                            // ['Jasmin Krause ', 52, 'Musician', 287, '2011-02-14'],
+                                            // ['Li Lei', 37, 'Teacher', 219, '2011-02-18'],
+                                            // ['Karle Neumann', 25, 'Engineer', 253, '2011-04-02'],
+                                            // ['Adrian Groß', 19, 'Teacher', '-', '2011-01-16'],
+                                            // ['Mia Neumann', 71, 'Engineer', 165, '2011-03-19'],
+                                            // ['Böhm Fuchs', 36, 'Musician', 318, '2011-02-24'],
+                                            // ['Han Meimei', 67, 'Engineer', 366, '2011-03-12']
+                                        ]
+                    },
+                    {
+                        transform: {
+                            type: 'sort',
+                            config: { dimension: 'Favorite Count', order: 'desc' }
+                        }
+                    }
+                ],
+                xAxis: {
+                    type: 'category',
+                    axisLabel: { interval: 0, rotate: 30 }
+                },
+                yAxis: {},
+                series: {
+                    type: 'bar',
+                    encode: { x: 'name', y: 'score' },
+                    datasetIndex: 1
+                }
+            };
+
+            var revenueOption = {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        data: [500, 800, 700, 900, 1200, 1000, 800],
+                        type: 'line'
+                    }
+                ]
+            };
+
+
+            usersChart.setOption(usersOption);
+            userFavoriteChart.setOption(userFavoiteOption);
+            revenueChart.setOption(revenueOption);
+            moviesChart.setOption(moviesOption);
+        });
+    </script>
+}

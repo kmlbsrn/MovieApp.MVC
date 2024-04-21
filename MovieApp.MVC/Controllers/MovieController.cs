@@ -83,7 +83,32 @@ namespace MovieApp.MVC.Controllers
         }
 
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult TopRated(int pageNumber)
+        {
+            // İstenilen sayfa numarasına göre belirli bir sorgu ile sayfalama işlemi yapılabilir.
+            var movieListModel = _movieService.GetTopRatedMovies(pageNumber).Result;
 
+            // Gerekirse sayfalamaya ait diğer veriler de hesaplanabilir veya ayarlanabilir.
+
+            // Sayfa numarası ve sorgu bilgisi view'e gönderilir.
+            ViewBag.PageNumber = pageNumber;
+
+            return View("TopRated",movieListModel);
+
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult getTopRatedMovieList()
+        {
+            var movieListModel = _movieService.GetTopRatedMoviesList().Result;
+
+            return View("TopRated",movieListModel);
+        }
+      
 
     }
 }

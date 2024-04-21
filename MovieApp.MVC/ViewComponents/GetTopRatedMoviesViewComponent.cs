@@ -18,9 +18,10 @@ namespace MovieApp.MVC.ViewComponents
                 
             var model = _movieService.GetTopRatedMovies().Result;
 
-            
-           // max 5 movies
-           if (model.Results.Count > 5)
+          
+
+            // max 5 movies
+            if (model.Results.Count > 5)
             {
                 model.Results = model.Results.GetRange(0, 5);
             }

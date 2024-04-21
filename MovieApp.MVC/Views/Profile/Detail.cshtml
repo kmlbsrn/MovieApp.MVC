@@ -1,0 +1,128 @@
+﻿@model AddUserDetailModel
+
+@* <div class="max-w-lg mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <h1 class="text-3xl font-semibold text-gray-800 mb-4">User Detail Added</h1>
+    <form asp-controller="Profile" asp-action="Detail" method="post">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="FirstName">First Name</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="firstName" asp-for="FirstName">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="LastName">Last Name</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="lastName" asp-for="LastName">
+            </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="ProfilePictureUrl">Profile Picture URL</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="profilePicture" asp-for="ProfilePictureUrl">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="Biography">Biography</label>
+                <textarea class="form-textarea w-full border-2 border-gray-300 rounded-md py-2 px-4" id="biography" asp-for="Biography"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="BirthDate">Date of Birth</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="date" id="dateOfBirth" asp-for="BirthDate">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="Facebook">Facebook</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="facebook" asp-for="Facebook">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="Twitter">Twitter</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="twitter" asp-for="Twitter">
+            </div>
+
+            <div>
+                <label class="block text-gray-700 text-sm font-semibold mb-2" asp-for="Instagram">Instagram</label>
+                <input class="form-input w-full border-2 border-gray-300 rounded-md py-2 px-4" type="text" id="instagram" asp-for="Instagram">
+            </div>
+
+        </div>
+        <div class="mt-6">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">Save</button>
+        </div>
+    </form>
+</div>
+ *@
+
+<div class="text-center py-4 bg-gray-200">
+    <h1 class="text-2xl font-bold">Add User Detail</h1>
+</div>
+
+<form class="px-6 py-4" asp-controller="Profile" asp-action="Save" method="post" enctype="multipart/form-data">
+
+    <!-- First Name -->
+    <div class="mb-4">
+        <label asp-for="FirstName" class="block text-gray-700 font-bold mb-2">First Name</label>
+        <input type="text" asp-for="FirstName" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <!-- Last Name -->
+    <div class="mb-4">
+        <label asp-for="LastName" class="block text-gray-700 font-bold mb-2">Last Name</label>
+        <input type="text" asp-for="LastName" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+   
+
+    <!-- Biography -->
+    <div class="mb-4">
+        <label asp-for="Biography" class="block text-gray-700 font-bold mb-2">Biography</label>
+        <textarea asp-for="Biography" class="form-textarea w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500" rows="4"></textarea>
+    </div>
+
+    <!-- Gender -->
+    <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2">Gender</label>
+        <div class="flex items-center space-x-4">
+            <label asp-for="Gender" class="flex items-center">
+                <input type="radio" asp-for="Gender" value="true" class="form-radio">
+                <span class="ml-2">Male</span>
+            </label>
+            <label asp-for="Gender" class="flex items-center">
+                <input type="radio" asp-for="Gender" value="false" class="form-radio">
+                <span class="ml-2">Female</span>
+            </label>
+        </div>
+    </div>
+
+
+    <!-- Birth Date -->
+    <div class="mb-4">
+        <label asp-for="BirthDate" class="block text-gray-700 font-bold mb-2">Birth Date</label>
+        <input type="date" asp-for="BirthDate" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <!-- Social Links -->
+    <div class="mb-4">
+        <label asp-for="Facebook" class="block text-gray-700 font-bold mb-2">Facebook</label>
+        <input type="text" asp-for="Facebook" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <div class="mb-4">
+        <label asp-for="Twitter" class="block text-gray-700 font-bold mb-2">Twitter</label>
+        <input type="text" asp-for="Twitter" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <div class="mb-4">
+        <label asp-for="Instagram" class="block text-gray-700 font-bold mb-2">Instagram</label>
+        <input type="text" asp-for="Instagram" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <!-- Profile Picture URL -->
+    <div class="mb-4">
+        <label asp-for="ProfilePicture" class="block text-gray-700 font-bold mb-2">Profile Picture</label>
+        <input type="file" asp-for="ProfilePicture" class="form-input w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Save</button>
+    </div>
+
+</form>

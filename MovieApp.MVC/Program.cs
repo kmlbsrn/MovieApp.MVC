@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using MovieApp.MVC.MappingProfile;
 using MovieApp.MVC.Middlewares;
 using MovieApp.MVC.Services.Abstract;
 using MovieApp.MVC.Services.Concrete;
@@ -32,6 +33,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
     options.AddPolicy("User", policy => policy.RequireClaim(ClaimTypes.Role, "User"));
 });
+
+builder.Services.AddAutoMapper(typeof(UserMappingProfile));
 
 builder.Services.AddScoped<ApiService, ApiRequestExecutor>();
 builder.Services.AddScoped<IMovieService, MovieManager>();

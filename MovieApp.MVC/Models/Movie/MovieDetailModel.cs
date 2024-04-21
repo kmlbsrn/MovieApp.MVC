@@ -83,5 +83,8 @@ namespace MovieApp.MVC.Models.Movie
 
         [JsonPropertyName("vote_count")]
         public int VoteCount { get; set; }
+
+        [JsonPropertyName("isFavorite")]
+        public bool IsFavorite { get; set; }
     }
 }

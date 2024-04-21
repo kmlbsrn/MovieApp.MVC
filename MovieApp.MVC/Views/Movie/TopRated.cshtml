@@ -1,0 +1,73 @@
+﻿@model MovieListModel<MovieModel>
+
+
+
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-4xl font-semibold mb-8 text-center">Movie Search Results</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+        @if (Model.Results.Count != 0)
+        {
+            @foreach (var movie in Model.Results)
+            {
+                <div class="max-w-md rounded overflow-hidden shadow-xl bg-white">
+                    <img class="w-full h-56 object-cover" src="https://image.tmdb.org/t/p/w500/@movie.PosterPath"
+                         alt="@movie.Title">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">@movie.Title</div>
+                        <p class="text-gray-700 text-sm">
+                            @((movie.Overview.Length > 100) ? movie.Overview.Substring(0, 100) + "..." : movie.Overview)
+                        </p>
+                    </div>
+                    <div class="px-6 py-2">
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">Release Date: @movie.ReleaseDate</span>
+                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">Vote Average: @movie.VoteAverage</span>
+
+                        <div class="flex flex-wrap">
+                            @foreach (var genre in movie.Genres)
+                            {
+                                <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">@genre.Name</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 flex justify-center">
+                        <a href="@Url.Action("Detail", "Movie", new { id = movie.Id })"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block">
+                            Details
+                        </a>
+                    </div>
+                </div>
+            }
+            // pagination
+
+            <div class="flex">
+                <!-- Previous Button -->
+                @if (Model.Page > 1)
+                {
+                    <a asp-controller="Movie" asp-action="TopRated"  asp-route-pageNumber="@(Model.Page-1)" id="previous" class=" pagination flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4" />
+                        </svg>
+                        Previous
+                    </a>
+                }
+                @if (Model.Page != Model.TotalPages)
+                {
+                    <a asp-controller="Movie" asp-action="TopRated" asp-route-pageNumber="@(Model.Page+1)" class="pagination flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        Next
+                        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                        </svg>
+                    </a>
+                }
+
+            </div>
+
+        }
+        else
+        {
+            <div class="text-center text-2xl font-semibold col-span-4">No results found</div>
+        }
+    </div>
+</div>
+

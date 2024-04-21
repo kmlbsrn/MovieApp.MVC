@@ -12,7 +12,7 @@ namespace MovieApp.MVC.Models.User
         [JsonPropertyName("userName")]
         public string UserName { get; set; }
 
-        [JsonPropertyName("email")]
+        [JsonPropertyName("userEmail")]
         public string Email { get; set; }
 
         [JsonPropertyName("favoriteFilm")]

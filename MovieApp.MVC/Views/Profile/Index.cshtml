@@ -1,12 +1,19 @@
-﻿@model Tuple<List<MovieShortModel>,List<ProfileListReviewModel>>
+﻿@model Tuple<List<MovieShortModel>,List<ProfileListReviewModel>,UserDetailListModel>
 
 <div class="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
     <div class="p-8">
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500"
-                         src="https://via.placeholder.com/150" alt="Profile Picture">
+                    @if (string.IsNullOrEmpty(Model.Item3.ProfilePictureUrl))
+                    {
+                        <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500"
+                             src="https://via.placeholder.com/150" alt="Profile Picture">
+                    }
+                    else
+                    {
+                        <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500" src="~/image/userProfile/@Model.Item3.ProfilePictureUrl" alt="Profile Picture">
+                    }
                     <div class="absolute inset-0 rounded-full bg-black opacity-50 flex items-center justify-center">
                         <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
@@ -21,6 +28,7 @@
                     <h1 class="text-3xl font-semibold text-gray-800">@User.GetUserName()</h1>
                     <p class="text-gray-600">@User.GetUserMail()</p>
                 </div>
+
             </div>
             <button class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold rounded-full transition duration-200">
                 Edit Profile
@@ -45,31 +53,38 @@
         <hr class="my-6 border-gray-300">
         <div>
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Recent Reviews</h2>
-            @foreach (var review in Model.Item2)
+            @foreach (var reviewGroup in Model.Item2.GroupBy(r => r.MovieName))
             {
-                <div class="flex items-center mb-8">
-                    <div class="h-24 w-24 rounded overflow-hidden flex-shrink-0">
-                        <img class="object-cover w-full h-full"
-                             src="https://image.tmdb.org/t/p/w500/@review.MoviePoster" alt="Movie Poster">
-                    </div>
-                    <div class="ml-4">
-                        <p class="text-lg font-semibold text-gray-800 mb-1">@review.MovieName</p>
-                        <p class="text-gray-600">@review.ReviewText</p>
+                <div class="mb-8">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">@reviewGroup.Key</h3>
+                    @foreach (var review in reviewGroup)
+                    {
+                        <div class="flex items-center mb-4">
+                            <div class="h-24 w-24 rounded overflow-hidden flex-shrink-0">
+                                <img class="object-cover w-full h-full"
+                                     src="https://image.tmdb.org/t/p/w500/@review.MoviePoster" alt="Movie Poster">
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-lg font-semibold text-gray-800 mb-1">@review.MovieName</p>
+                                <p class="text-gray-600">@review.ReviewText</p>
 
-                        @for (int i = 0; i < 5; i++)
-                        {
-                            if (i < review.Rating)
-                            {
-                                <i class="fas fa-star text-yellow-500"></i>
-                            }
-                            else
-                            {
-                                <i class="far fa-star text-yellow-500"></i>
-                            }
-                        } 
-                    </div>
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    if (i < review.Rating)
+                                    {
+                                        <i class="fas fa-star text-yellow-500"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star text-yellow-500"></i>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
                 </div>
             }
         </div>
+
     </div>
 </div>

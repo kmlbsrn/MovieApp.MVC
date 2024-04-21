@@ -47,6 +47,9 @@ namespace MovieApp.MVC.Models.Movie
         [JsonPropertyName("vote_count")]
         public int VoteCount { get; set; }
 
+        [JsonPropertyName("genres")]
+        public List<GenreModel> Genres { get; set; }
+
         public bool IsFavorite { get; set; }
     }
 }

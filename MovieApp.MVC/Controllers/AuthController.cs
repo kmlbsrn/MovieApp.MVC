@@ -48,7 +48,16 @@ namespace MovieApp.MVC.Controllers
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return RedirectToAction("Index", "Home");
+                var loginViewModel = new LoginViewModel
+                {
+                    Email = formData.Email,
+                    Password = formData.Password
+                };
+
+                LoginAfterRegistration(loginViewModel);
+
+
+                return RedirectToAction("Detail", "Profile");
             }
             else
             {
@@ -133,6 +142,46 @@ namespace MovieApp.MVC.Controllers
             Random rnd = new Random();
 
             return imagePaths[rnd.Next(0, imagePaths.Length - 1)];
+        }
+
+        private void LoginAfterRegistration(LoginViewModel formData)
+        {
+            var client = new RestClient(_configuration["AppSettings:apiUrl"] ?? throw new ArgumentNullException("AppSettings:apiUrl"));
+            var request = new RestRequest("auth/login", Method.Post);
+            request.AddJsonBody(formData);
+            var response = client.Execute(request);
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var token = JsonSerializer.Deserialize<AccessToken>(response.Content);
+
+                if (token != null)
+                {
+                    // JWT token'dan gelen claim'leri al
+                    var claims = JwtTokenExtensions.GetClaims(token.Token);
+
+                    claims.Add(new Claim("Token", token.Token));
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal).Wait(); // Async metodu senkron olarak çağır
+
+                    TempData["SuccessMessage"] = "Giriş başarılı";
+                }
+            }
+            else
+            {
+                if (response.Content is null)
+                {
+                    ModelState.AddModelError("", "Sunucu yanıt vermiyor");
+                }
+                else
+                {
+                    ModelState.AddModelError("", response.Content);
+                }
+            }
         }
     }
 }

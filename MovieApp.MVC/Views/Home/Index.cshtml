@@ -16,7 +16,18 @@
 
 <vc:up-coming-movies />
 
+
 <vc:get-top-rated-movies/>
+
+<vc:get-up-coming-movie-video></vc:get-up-coming-movie-video>
+
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div id="trailer-container"></div>
+    </div>
+</div>
 
 @section Scripts
 {
@@ -70,6 +81,37 @@
                 nextArrow: '<button type="button" class="slick-next">Next</button>' // HTML for next button
             });
         });
+
+
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'fitImagesInViewport': true,
+            'maxWidth': 500,
+            'maxHeight': 500
+        })
+
+        function openModal(tmdbVideoId) {
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+
+            // YouTube fragmanını göstermek için iframe oluşturun
+            var iframe = document.createElement('iframe');
+            iframe.width = '100%'; // Tam genişlik
+            iframe.height = '100%'; // Tam yükseklik
+            iframe.src = 'https://www.youtube.com/embed/' + tmdbVideoId + '?rel=0'; // YouTube Video ID'si ile birlikte URL
+            iframe.frameBorder = '0'; // Kenar çerçevesini kaldır
+            iframe.allowFullscreen = true; // Tam ekran izin ver
+            document.getElementById('trailer-container').appendChild(iframe);
+        }
+
+        function closeModal() {
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'none';
+
+            // İçeriği temizle
+            document.getElementById('trailer-container').innerHTML = '';
+        }
 
 
     </script>

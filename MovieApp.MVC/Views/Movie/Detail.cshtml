@@ -21,6 +21,9 @@
                 <!-- Right Column - Movie Details -->
                 <div class="md:w-2/3 p-4 rounded-lg shadow-lg" style="background-color: rgba(0, 0, 0, 0.5);">
                     <h2 class="text-3xl font-semibold mb-4 text-white">@Model.Item1.Title</h2>
+                    <a href="https://www.imdb.com/title/@Model.Item1.ImdbId/" target="_blank" rel="noopener noreferrer">
+                        <span class="icon text-white"><i class="fab fa-imdb fa-2x"></i></span>
+                    </a>
                     <p class="text-gray-300 mb-4 text-white">Release Date: @Model.Item1.ReleaseDate</p>
                     <p class="text-gray-300 mb-4 text-white">Genres: @string.Join(", ", Model.Item1.Genres.Select(g => g.Name))</p>
                     <p class="text-gray-300 mb-4 text-white">@Model.Item1.Overview</p>
@@ -29,6 +32,31 @@
                     <p class="text-gray-300 mb-4 text-white">Revenue: $@Model.Item1.Revenue</p>
                     <p class="text-gray-300 mb-4 text-white">Runtime: @Model.Item1.Runtime minutes</p>
 
+        
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+
+
+                        @if (Model.Item1.IsFavorite)
+                        {
+
+                            <button class="bg-red-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md changeFavorite" data-movie-id="@Model.Item1.Id">Remove from Favorites</button>
+                        }
+                        else
+                        {
+                            <button class="bg-green-500 text-white font-semibold px-4 py-2 rounded-lg shadow-md addFavorite" data-movie-id="@Model.Item1.Id">Add to Favorites</button>
+
+                        }
+
+
+
+                    }
+
+                  
+
+
+                    <!-- Star Rating -->
                     @if (Model.Item4.Results.FirstOrDefault(x => x.Type == VideoType.Trailer.ToString()) is not null)
                     {
                         <div id="player"></div>
@@ -39,9 +67,8 @@
                     }
 
                 </div>
-
-
             </div>
+
 
             <!-- Cast List -->
             <div class="mt-8 overflow-x-auto">
@@ -168,6 +195,50 @@
             function onPlayerStateChange(event) {
                 // Oynatıcı durumu değiştikçe burada işlemler yapılabilir
             }
+
+
+
+            $('.changeFavorite').on('click', function () {
+                var movieId = $(this).attr('data-movie-id');
+                console.log("movieID:", movieId)
+
+                var isFavorite = $(this).attr('data-is-favorite');
+                var button = $(this);
+                $.ajax({
+                    url: '/UserFavorites/ChangeFavorite',
+                    type: 'POST',
+                    data: { movieId: movieId },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            $('.addFavorite').on('click', function () {
+
+                var movieId = $(this).attr('data-movie-id');
+
+                console.log("movieId", movieId)
+                var isFavorite = $(this).attr('data-is-favorite');
+                var button = $(this);
+                $.ajax({
+                    url: '/UserFavorites/add',
+                    type: 'POST',
+                    data: { Id: movieId },
+                    success: function (data) {
+                        window.location.reload();
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+
+
+            });
+
         </script>
     }
 }

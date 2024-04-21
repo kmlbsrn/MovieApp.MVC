@@ -48,7 +48,7 @@ public class ApiRequestExecutor : ApiService
             
         };
 
-        Console.WriteLine(ClaimsPrincipalExtensions.GetToken(_httpContextAccessor.HttpContext.User));
+       
 
         var client = new RestClient(options);
 

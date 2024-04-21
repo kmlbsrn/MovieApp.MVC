@@ -1,4 +1,5 @@
-﻿using MovieApp.MVC.Models.Movie;
+﻿using MovieApp.MVC.Areas.Admin.Models.Genre;
+using MovieApp.MVC.Models.Movie;
 using MovieApp.MVC.Services.Abstract;
 using RestSharp;
 
@@ -39,7 +40,19 @@ namespace MovieApp.MVC.Services.Concrete
             return await _apiService.ProcessApiResponseAsync<VideoListViewModel>(response);
         }
 
-        public async Task<MovieListModel<MovieModel>> GetTopRatedMovies()
+        public async Task<GenreListModel> GetPopularGenre()
+        {
+            var response = await _apiService.ExecuteMovieApiRequestAsync("/Movie/getpopulargenres", Method.Get);
+            return await _apiService.ProcessApiResponseAsync<GenreListModel>(response);
+        }
+
+        public async Task<MovieListModel<MovieModel>> GetTopRatedMovies(int pageNumber=1)
+        {
+            var response = await _apiService.ExecuteMovieApiRequestAsync($"Movie/gettopratedmovies?pageNumber={pageNumber}", Method.Get);
+            return await _apiService.ProcessApiResponseAsync<MovieListModel<MovieModel>>(response);
+        }
+
+        public async Task<MovieListModel<MovieModel>> GetTopRatedMoviesList()
         {
             var response = await _apiService.ExecuteMovieApiRequestAsync("Movie/gettopratedmovies", Method.Get);
             return await _apiService.ProcessApiResponseAsync<MovieListModel<MovieModel>>(response);
@@ -51,6 +64,12 @@ namespace MovieApp.MVC.Services.Concrete
             var response = await _apiService.ExecuteMovieApiRequestAsync("Movie/getupcomingmovies", Method.Get);
             return await _apiService.ProcessApiResponseAsync<MovieListModel<MovieModel>>(response);
 
+        }
+
+        public async Task<List<MovieTrailerModel>> GetUpComingTrailer()
+        {
+            var response =await _apiService.ExecuteMovieApiRequestAsync("/Movie/GetUpComingMovieTrailer", Method.Get);
+            return await _apiService.ProcessApiResponseAsync<List<MovieTrailerModel>>(response);
         }
     }
 }

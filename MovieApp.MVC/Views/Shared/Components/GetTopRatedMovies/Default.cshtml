@@ -1,5 +1,4 @@
-﻿
-@model MovieListModel<MovieModel>
+﻿@model MovieListModel<MovieModel>
 
 <style>
     /* Slick Slider */
@@ -98,7 +97,7 @@
                     <div class="film-title">@movie.OriginalTitle</div>
                     <div class="film-description">@movie.Overview</div>
                     <div class="imdb-score">
-                        <span class="icon"><i class="fab fa-imdb"></i></span>
+                        <span class="icon"><i class="fab fa-imdb fa-2x"></i></span>
                         <span>Rate: @movie.VoteCount</span>
                     </div>
                 </div>
@@ -106,7 +105,9 @@
         }
         <div class="slick-slide relative">
             <div class="more-info">
-                <div class="more-info-text">Daha Fazlası için Tıklayın</div>
+                <a asp-controller="Movie" asp-action="getTopRatedMovieList">
+                    <div class="more-info-text">Daha Fazlası için Tıklayın</div>
+                </a>
             </div>
         </div>
     </div>

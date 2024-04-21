@@ -2,16 +2,10 @@
 
 namespace MovieApp.MVC.Models.Review
 {
-    public class ProfileListReviewModel
+    public class ProfileListReviewModel:IModel
     {
 
-        //    "id": 21,
-        //"reviewText": "çok güzel bir film ",
-        //"rating": 5,
-        //"movieId": 823464,
-        //"movieName": "Godzilla ve Kong: Yeni İmparatorluk",
-        //"moviePoster": "/drw6bZFRP1Yv5LNFW0KLoAgWo5.jpg",
-        //"createdDate": "2024-03-31T18:17:01.0921314"[]
+       
 
         [JsonPropertyName("id")]
         public int Id { get; set; }
