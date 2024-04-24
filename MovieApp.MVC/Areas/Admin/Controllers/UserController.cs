@@ -40,6 +40,36 @@ namespace MovieApp.MVC.Areas.Admin.Controllers
             }
         }
 
+        public IActionResult GetUserReviews(int userId)
+        {
+         var viewModel = _userService.GetUserReviewsById(userId);
+
+            if (viewModel.IsCompletedSuccessfully)
+            {
+                return View("Reviews",viewModel.Result);
+            }
+            else
+            {
+                TempData["Error"] = "Kullanıcı yorumları getirilirken bir hata oluştu.";
+                return RedirectToAction("List");
+            }
+        }
+
+        public IActionResult UserDetail(int userId)
+        {
+            var viewModel = _userService.GetProfileUserInfoById(userId);
+
+            //if (viewModel.IsCompleted)
+            //{
+                return View("UserDetail",viewModel.Result);
+            //}
+            //else
+            //{
+            //    TempData["Error"] = "Kullanıcı detayları getirilirken bir hata oluştu.";
+            //    return RedirectToAction("List");
+            //}
+
+        }
         
     }
 }
