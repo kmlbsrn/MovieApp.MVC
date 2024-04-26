@@ -89,6 +89,18 @@ namespace MovieApp.MVC.Services.Concrete
             return await _apiService.ProcessApiResponseAsync<List<MovieShortModel>>(response);
         }
 
+        public async Task<UserProfileInfoModel> GetUserInfo(int userId)
+        {
+            var response = await _apiService.ExecuteMovieApiRequestAsync($"Users/getuserinfobyid?userId={userId}", Method.Get);
+            return await _apiService.ProcessApiResponseAsync<UserProfileInfoModel>(response);
+        }
+
+        public async Task<UserProfileInfoModel> GetUserInfo()
+        {
+            var response = await _apiService.ExecuteMovieApiRequestAsync("/Users/getUserDetail", Method.Get);
+            return await _apiService.ProcessApiResponseAsync<UserProfileInfoModel>(response);
+        }
+
         public async Task<List<ProfileListReviewModel>> GetUserReviewsById(int userId)
         {
             var response = await _apiService.ExecuteMovieApiRequestAsync($"Review/getreviewsbyuserid?userId={userId}", Method.Get);

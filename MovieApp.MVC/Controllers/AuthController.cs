@@ -116,8 +116,9 @@ namespace MovieApp.MVC.Controllers
                     return View("Form", formData);
                 }
 
-                ModelState.AddModelError("", response.Content);
-                return View("Form", formData);
+
+                TempData["ErrorMessage"] = response.Content.ToString();
+                return RedirectToAction("register","Auth");
             }
         }
 

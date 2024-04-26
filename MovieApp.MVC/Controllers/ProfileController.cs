@@ -25,16 +25,14 @@ namespace MovieApp.MVC.Controllers
         public IActionResult Index()
         {
 
-            var userFavorites = _userService.GetUserFavoritesWithMovies().Result;
+            var userInfo= _userService.GetUserInfo();
 
-            var usersReviews = _userService.GetUsersReviews().Result;
-
-            var userDetail = _userService.GetUserDetail().Result;
-
-            var viewModel= Tuple.Create(userFavorites, usersReviews,userDetail);
+            return View("Index", userInfo.Result);
             
+           
 
-            return View("Index",viewModel);
+
+
         }
 
         [HttpGet("userProfile")]

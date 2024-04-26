@@ -7,61 +7,101 @@
         <div class="flex items-center mb-4">
             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profil Fotoğrafı" class="avatar mr-4">
             <div>
-                <p class="text-lg text-gray-600 mb-2"><strong>Email:</strong> kullanici@email.com</p>
-                <p class="text-lg text-gray-600 mb-2"><strong>Doğum Tarihi:</strong> 01 Ocak 1990</p>
-                <p class="text-lg text-gray-600 mb-2"><strong>Cinsiyet:</strong> Erkek</p>
-                <p class="text-lg text-gray-600 mb-2"><strong>Ülke:</strong> Türkiye</p>
+                <p class="text-lg text-gray-600 mb-2"><strong>Email:</strong> @Model.Email</p>
+                <p class="text-lg text-gray-600 mb-2"><strong>Doğum Tarihi:</strong> @Model.UserName</p>
+                @*  <p class="text-lg text-gray-600 mb-2"><strong>Cinsiyet:</strong> @Model.</p>
+                <p class="text-lg text-gray-600 mb-2"><strong>Ülke:</strong> @Model.Ulke</p> *@
             </div>
         </div>
     </div>
     <!-- Favori Filmler -->
-    <div class="mb-8 overflow-x-auto">
-        <h2 class="text-xl font-semibold mb-4">Favori Filmler</h2>
-        <div class="flex flex-nowrap overflow-x-auto gap-4">
-            <div class="card flex-shrink-0">
-                <img src="https://picsum.photos/id/237/300/450" alt="Film Adı 1" class="poster">
-                <div class="p-4">
-                    <p class="text-lg font-semibold mb-2">Film Adı 1</p>
+    <div class="col-span-1 md:col-span-2 lg:col-span-3">
+
+
+        <div class="container_custom">
+
+            @foreach (var movie in Model.UserFavorites)
+            {
+                <div class="movie-poster relative">
+                    <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="@movie.Title" class="poster-image" />
+                    <div class="overlay">
+                        <div class="poster-info">
+                            <h3 class="poster-title">@movie.Title</h3>
+                            <p class="poster-description">@movie.Overview</p>
+                            <a class="poster-button" asp-controller="Movie" asp-action="Detail" asp-route-id="@movie.Id">Go Detail</a>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-            <!-- Diğer favori filmler buraya gelecek -->
+            }
+
+            <!-- Diğer kartlar buraya eklenecek -->
         </div>
     </div>
+
 
     <div class="mb-8 overflow-x-auto">
         <h2 class="text-xl font-semibold mb-4">Yorum Yaptığı Filmler</h2>
         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-200">
+            <table id="reviewTable" class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Film Adı</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Yorum</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Puan</th>
+                        <th scope="col" width:150px class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poster</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Movie Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Review</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rate</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full" src="https://picsum.photos/id/240/300/450" alt="">
+                    @foreach (var yorumluFilm in Model.UsersReviews)
+                    {
+                        <tr>
+                            <td>
+
+                                @if (string.IsNullOrWhiteSpace(yorumluFilm.MoviePoster))
+                                {
+                                    <a href="~/images/xlargeicons_image_iconxlarge_5314.png" data-lightbox="@yorumluFilm.MovieName" data-title="@yorumluFilm.MovieName"><img width="140" height="120" src="~/images/xlargeicons_image_iconxlarge_5314.png" /></a>
+                                }
+                                else
+                                {
+                                    <a href="https://image.tmdb.org/t/p/w500/@yorumluFilm.MoviePoster" data-lightbox=" @yorumluFilm.MovieName" data-title="@yorumluFilm.MovieName"><img width="140" height="120" src="https://image.tmdb.org/t/p/w500/@yorumluFilm.MoviePoster" /></a>
+                                }
+                            </td>
+
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0 h-10 w-10">
+                                        <img class="h-10 w-10 rounded-full" src="@yorumluFilm.MoviePoster" alt="">
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="text-lg font-semibold text-gray-900">@yorumluFilm.MovieName</div>
+                                    </div>
                                 </div>
-                                <div class="ml-4">
-                                    <div class="text-lg font-semibold text-gray-900">Film Adı 4</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-lg text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">8.5</span>
-                        </td>
-                    </tr>
-                    <!-- Diğer yorum yapılan filmler buraya gelecek -->
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-lg text-gray-700">@yorumluFilm.ReviewText</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">@yorumluFilm.Rating</span>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
+
+
+@section Scripts {
+    <script>
+        var table = new DataTable('#reviewTable', {
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/en.json',
+            },
+            pageLength: 3
+        });
+
+    </script>
+
+}

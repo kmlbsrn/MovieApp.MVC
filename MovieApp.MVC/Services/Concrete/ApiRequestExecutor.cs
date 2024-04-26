@@ -1,4 +1,5 @@
 ﻿using MovieApp.MVC.Extensions;
+using MovieApp.MVC.Models.Result;
 using MovieApp.MVC.Services.Abstract;
 
 using RestSharp;
@@ -62,6 +63,24 @@ public class ApiRequestExecutor : ApiService
 
     public Task<T> ProcessApiResponseAsync<T>(RestResponse response)
     {
+
+
+        switch (response.StatusCode)
+        {
+            case HttpStatusCode.OK:
+                return Task.FromResult(JsonSerializer.Deserialize<T>(response.Content));
+            case HttpStatusCode.BadRequest:
+                return Task.FromResult(default(T));
+            case HttpStatusCode.Unauthorized:
+                return Task.FromResult(default(T));
+            case HttpStatusCode.NotFound:
+                return Task.FromResult(default(T));
+            case HttpStatusCode.InternalServerError:
+                return Task.FromResult(default(T));
+            default:
+                return Task.FromResult(default(T));
+        }
+
         if (response.StatusCode== HttpStatusCode.OK)
         {
             try

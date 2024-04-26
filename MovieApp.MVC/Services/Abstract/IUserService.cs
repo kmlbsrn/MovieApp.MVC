@@ -38,7 +38,8 @@ namespace MovieApp.MVC.Services.Abstract
 
         Task<Result> AddUserDetail(AddUserDetailReq data);
 
-        Task<UserDetailListModel> GetUserDetail();
+       
+        Task<UserProfileInfoModel> GetUserInfo();
 
     }
 }

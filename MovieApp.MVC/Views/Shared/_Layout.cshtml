@@ -61,7 +61,7 @@
                     {
 
                         <li>
-                            <a  asp-area="Admin" asp-controller="Home" asp-action="Index" >Admin Panel</a>
+                            <a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Panel</a>
                         </li>
                     }
 
@@ -155,6 +155,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+
         });
 
         @if (!string.IsNullOrWhiteSpace(TempData["SuccessMessage"]?.ToString()))
@@ -162,6 +163,8 @@
             @:toastr.options.closeHtml = '<button class="closebtn"><i class="bi bi-x"></i></button>';
             @:toastr.success("@TempData["SuccessMessage"]?.ToString()", "Bildirim:");
         }
+
+      
 
     </script>
 </body>

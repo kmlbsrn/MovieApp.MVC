@@ -1,18 +1,18 @@
-﻿@model Tuple<List<MovieShortModel>,List<ProfileListReviewModel>,UserDetailListModel>
+﻿@model UserProfileInfoModel
 
 <div class="max-w-4xl mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
     <div class="p-8">
         <div class="flex justify-between items-center mb-8">
             <div class="flex items-center space-x-4">
                 <div class="relative">
-                    @if (string.IsNullOrEmpty(Model.Item3.ProfilePictureUrl))
+                    @if (string.IsNullOrEmpty(Model.ProfilePictureUrl))
                     {
                         <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500"
                              src="https://via.placeholder.com/150" alt="Profile Picture">
                     }
                     else
                     {
-                        <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500" src="~/image/userProfile/@Model.Item3.ProfilePictureUrl" alt="Profile Picture">
+                        <img class="h-24 w-24 rounded-full object-cover border-4 border-blue-500" src="~/image/userProfile/@Model.ProfilePictureUrl" alt="Profile Picture">
                     }
                     <div class="absolute inset-0 rounded-full bg-black opacity-50 flex items-center justify-center">
                         <svg class="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -38,7 +38,7 @@
         <div>
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Favorite Films</h2>
             <div class="grid grid-cols-3 gap-4">
-                @foreach (var movie in Model.Item1)
+                @foreach (var movie in Model.UserFavorites)
                 {
                     <div class="relative group flex flex-col">
                         <img class="w-full rounded-lg shadow-lg transition duration-300 transform group-hover:scale-105"
@@ -53,7 +53,7 @@
         <hr class="my-6 border-gray-300">
         <div>
             <h2 class="text-2xl font-semibold mb-4 text-gray-800">Recent Reviews</h2>
-            @foreach (var reviewGroup in Model.Item2.GroupBy(r => r.MovieName))
+            @foreach (var reviewGroup in Model.UsersReviews.GroupBy(r => r.MovieName))
             {
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold text-gray-800 mb-2">@reviewGroup.Key</h3>
