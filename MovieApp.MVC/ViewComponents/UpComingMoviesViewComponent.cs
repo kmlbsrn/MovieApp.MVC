@@ -30,13 +30,17 @@ namespace MovieApp.MVC.ViewComponents
                 var userFavorites = _userService.GetUserFavoriteIds().Result.MovieId;
 
 
-                foreach (var movie in upcomingMovies.Results)
-                {
-                    if (userFavorites.Contains(movie.Id))
-                    {
-                        movie.IsFavorite = true;
-                    }
-                }
+                if (upcomingMovies is not null)
+ {
+
+     foreach (var movie in upcomingMovies.Results)
+     {
+         if (userFavorites.Contains(movie.Id))
+         {
+             movie.IsFavorite = true;
+         }
+     }
+ }
                
 
             }
