@@ -63,7 +63,15 @@ namespace MovieApp.MVC.Controllers
 
             ViewBag.Query = query;
 
-            return View(movieListModel);
+            var searchModel = new SearchModel
+            {
+                Query = query,
+                
+            };
+
+            var viewModel= new Tuple<MovieListModel<SearchMovieModel>, SearchModel>(movieListModel, searchModel );
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -79,7 +87,14 @@ namespace MovieApp.MVC.Controllers
             ViewBag.Query = query;
             ViewBag.PageNumber = pageNumber;
 
-            return View("Search",movieListModel);
+            var searchModel = new SearchModel
+            {
+                Query = query,
+            };
+
+            var viewModel = new Tuple<MovieListModel<SearchMovieModel>, SearchModel>(movieListModel, searchModel);
+
+            return View("Search",viewModel);
         }
 
 

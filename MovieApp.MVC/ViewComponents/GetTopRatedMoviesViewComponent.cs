@@ -3,7 +3,7 @@ using MovieApp.MVC.Services.Abstract;
 
 namespace MovieApp.MVC.ViewComponents
 {
-    public class GetTopRatedMoviesViewComponent:ViewComponent
+    public class GetTopRatedMoviesViewComponent : ViewComponent
     {
 
         private readonly IMovieService _movieService;
@@ -15,15 +15,20 @@ namespace MovieApp.MVC.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-                
+
             var model = _movieService.GetTopRatedMovies().Result;
 
-          
 
-            // max 5 movies
-            if (model.Results.Count > 5)
+            if (model is not null)
             {
-                model.Results = model.Results.GetRange(0, 5);
+
+                // max 5 movies
+                if (model.Results.Count > 5)
+                {
+                    model.Results = model.Results.GetRange(0, 5);
+                }
+
+                return View(model);
             }
 
             return View(model);

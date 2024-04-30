@@ -8,6 +8,7 @@ namespace MovieApp.MVC.Models
         [JsonPropertyName("accessToken")]
         public string Token { get; set; }
 
+        [JsonPropertyName("expiration")]
         public DateTime Expiration { get; set; }
     }
 }

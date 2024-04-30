@@ -5,25 +5,49 @@
 
 <div class="flex overflow-x-auto">
     <!-- Kartlar -->
-
-    @foreach (var movieVideo in Model)
+    @if (Model is not null)
     {
-        <div class=" relative rounded-lg shadow-lg bg-gradient-to-br from-purple-400 to-indigo-600 mx-2 mx-2 h-full flex-shrink-0">
-            <a href="#" onclick="openModal('@movieVideo.Key')" title="The Greatest Hits">
-                <img loading="lazy" class="w-full h-64 object-cover transition-transform duration-300 transform hover:scale-105" src="https://image.tmdb.org/t/p/original/@movieVideo.BackdropPath" alt="@movieVideo.Name">
-                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
-                    <svg class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM10 8v8l6-4-6-4z" />
-                    </svg>
+
+
+        @foreach (var movieVideo in Model)
+        {
+            <div class=" relative rounded-lg shadow-lg bg-gradient-to-br from-purple-400 to-indigo-600 mx-2 mx-2 h-full flex-shrink-0">
+                <a href="#" onclick="openModal('@movieVideo.Key')" title="The Greatest Hits">
+                    <img loading="lazy" class="w-full h-64 object-cover transition-transform duration-300 transform hover:scale-105" src="https://image.tmdb.org/t/p/original/@movieVideo.BackdropPath" alt="@movieVideo.Name">
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <svg class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM10 8v8l6-4-6-4z" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="px-4 py-3">
+                    <h2 class="text-lg font-semibold text-white mb-2"><a href="/movie/1011082-the-greatest-hits" title="@movieVideo.Title" class="hover:text-gray-100 transition-colors duration-300">@movieVideo.Title</a></h2>
+                    <h3 class="text-sm font-medium text-white opacity-80">@movieVideo.Name</h3>
                 </div>
-            </a>
-            <div class="px-4 py-3">
-                <h2 class="text-lg font-semibold text-white mb-2"><a href="/movie/1011082-the-greatest-hits" title="@movieVideo.Name" class="hover:text-gray-100 transition-colors duration-300">@movieVideo.Name</a></h2>
-                <h3 class="text-sm font-medium text-white opacity-80">@movieVideo.Type</h3>
             </div>
-        </div>
 
+        }
     }
+    else
+    {
+        @for (int i = 0; i < 3; i++)
+        {
+            <div class=" relative rounded-lg shadow-lg bg-gradient-to-br from-purple-400 to-indigo-600 mx-2 mx-2 h-full flex-shrink-0">
+                <a href="#"  title="The Greatest Hits">
+                    <img loading="lazy" class="w-full h-64 object-cover transition-transform duration-300 transform hover:scale-105">
+                    <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                        <svg class="h-12 w-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0zM10 8v8l6-4-6-4z" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="px-4 py-3">
+                    <h2 class="text-lg font-semibold text-white mb-2"><a href="/movie/1011082-the-greatest-hits"  class="hover:text-gray-100 transition-colors duration-300"></a></h2>
+                    <h3 class="text-sm font-medium text-white opacity-80"></h3>
+                </div>
+            </div>
 
+        }
+    }
     <!-- Kartlar burada tekrarlanabilir -->
 </div>

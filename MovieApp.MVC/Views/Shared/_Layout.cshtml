@@ -48,11 +48,13 @@
                 @if (!User.Identity.IsAuthenticated)
                 {
                     <li>
-                        <a href="#">Login</a>
+                        <a href="#" id="toggleLoginForm">Login</a>
                     </li>
                     <li>
-                        <a asp-controller="Auth" asp-action="Register">Register</a>
+                        <a id="register" asp-controller="Auth" asp-action="Register">Register</a>
                     </li>
+
+                    <partial name="_NavbarLoginPartial" model=" new LoginViewModel()" />
                 }
                 else
                 {
@@ -79,6 +81,8 @@
             </ul>
         </div>
     </nav>
+
+  
 
 
     <div class="container mx-auto py-8">
@@ -137,6 +141,21 @@
 
     <script>
 
+        $('#toggleLoginForm').click(function () {
+            $('#loginFormContainer').toggleClass('hidden');
+            $('#toggleLoginForm').addClass('hidden');
+            $('#register').addClass('hidden');
+        });
+
+        // Kapatma butonu
+        $('#closeLoginForm').click(function () {
+            $('#loginFormContainer').addClass('hidden');
+            $('#toggleLoginForm').toggleClass('hidden');
+            $('#register').toggleClass('hidden');
+        });
+
+
+
         $('document').ready(() => {
             toastr.options = {
                 "closeButton": false,
@@ -155,7 +174,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
-
+         
         });
 
         @if (!string.IsNullOrWhiteSpace(TempData["SuccessMessage"]?.ToString()))
@@ -164,7 +183,7 @@
             @:toastr.success("@TempData["SuccessMessage"]?.ToString()", "Bildirim:");
         }
 
-      
+
 
     </script>
 </body>

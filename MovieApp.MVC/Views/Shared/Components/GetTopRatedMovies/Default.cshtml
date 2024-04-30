@@ -89,26 +89,51 @@
 <div class="container mx-auto py-8 max-w-4xl">
     <h1 class="carousel-title text-purple-700">En Çok Oylanan Filmler</h1>
     <div class="slick-carousel">
-        @foreach (var movie in Model.Results)
+        @if (Model is not null)
         {
-            <div class="slick-slide relative">
-                <img class="slide-image" src="https://image.tmdb.org/t/p/original/@movie.BackdropPath" alt="@movie.Title">
-                <div class="film-info">
-                    <div class="film-title">@movie.OriginalTitle</div>
-                    <div class="film-description">@movie.Overview</div>
-                    <div class="imdb-score">
-                        <span class="icon"><i class="fab fa-imdb fa-2x"></i></span>
-                        <span>Rate: @movie.VoteCount</span>
+
+
+            @foreach (var movie in Model.Results)
+            {
+                <div class="slick-slide relative">
+                    <img class="slide-image" src="https://image.tmdb.org/t/p/original/@movie.BackdropPath" alt="@movie.Title">
+                    <div class="film-info">
+                        <div class="film-title">@movie.OriginalTitle</div>
+                        <div class="film-description">@movie.Overview</div>
+                        <div class="imdb-score">
+                            <span class="icon"><i class="fab fa-imdb fa-2x"></i></span>
+                            <span>Rate: @movie.VoteCount</span>
+                        </div>
                     </div>
+                </div>
+            }
+            <div class="slick-slide relative">
+                <div class="more-info">
+                    <a asp-controller="Movie" asp-action="getTopRatedMovieList">
+                        <div class="more-info-text">Daha Fazlası için Tıklayın</div>
+                    </a>
                 </div>
             </div>
         }
-        <div class="slick-slide relative">
-            <div class="more-info">
-                <a asp-controller="Movie" asp-action="getTopRatedMovieList">
-                    <div class="more-info-text">Daha Fazlası için Tıklayın</div>
-                </a>
-            </div>
-        </div>
+        else
+        {
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="slick-slide relative">
+                    <img class="slide-image" src="https://via.placeholder.com/300x450" alt="Mockup">
+                    <div class="film-info">
+                        <div class="film-title"></div>
+                        <div class="film-description"></div>
+                        <div class="imdb-score">
+                            <span class="icon"><i class="fab fa-imdb fa-2x"></i></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        }
+
     </div>
 </div>

@@ -168,43 +168,66 @@
 
     <div class="container_custom">
 
-        @foreach (var movie in Model.Results)
+        @if (Model is not null)
         {
-            <div class="movie-poster relative">
-                <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="@movie.Title" class="poster-image" />
-                <div class="overlay">
-                    <div class="poster-info">
-                        <h3 class="poster-title">@movie.OriginalTitle</h3>
-                        <p class="poster-description">@movie.Overview</p>
-                        <a class="poster-button" asp-controller="Movie" asp-action="Detail" asp-route-id="@movie.Id">Go Detail</a>
+
+
+            @foreach (var movie in Model.Results)
+            {
+                <div class="movie-poster relative">
+                    <img src="https://image.tmdb.org/t/p/w500/@movie.PosterPath" alt="@movie.Title" class="poster-image" />
+                    <div class="overlay">
+                        <div class="poster-info">
+                            <h3 class="poster-title">@movie.OriginalTitle</h3>
+                            <p class="poster-description">@movie.Overview</p>
+                            <a class="poster-button" asp-controller="Movie" asp-action="Detail" asp-route-id="@movie.Id">Go Detail</a>
+                        </div>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (movie.IsFavorite)
+                            {
+                                <button class="favorite-button changeFavorite" data-movie-id="@movie.Id">
+                                    <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
+                            }
+                            else
+                            {
+                                <button class="favorite-button addFavorite" data-movie-id="@movie.Id">
+                                    <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                    </svg>
+                                </button>
+                            }
+
+
+
+                        }
                     </div>
 
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        if (movie.IsFavorite)
-                        {
-                            <button class="favorite-button changeFavorite" data-movie-id="@movie.Id">
-                                <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                </svg>
-                            </button>
-                        }
-                        else
-                        {
-                            <button class="favorite-button addFavorite"  data-movie-id="@movie.Id">
-                                <svg class="favorite-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                </svg>
-                            </button>
-                        }
-
-
-
-                    }
                 </div>
-
-            </div>
+            }
         }
+        else
+        {
+
+            @for (int i = 0; i < 6; i++)
+            {
+                <div class="movie-poster relative">
+                    <img src="https://via.placeholder.com/300x450" alt="Mockup" class="poster-image" />
+                    <div class="overlay">
+                        <div class="poster-info">
+                            <h3 class="poster-title"></h3>
+                            <p class="poster-description"></p>
+                        </div>
+                    </div>
+
+                </div>
+            }
+        }
+
 
         <!-- Diğer kartlar buraya eklenecek -->
     </div>

@@ -13,6 +13,9 @@ namespace MovieApp.MVC.Models.Movie
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
         [JsonPropertyName("site")]
         public string Site { get; set; }
 

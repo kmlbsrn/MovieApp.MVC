@@ -1,12 +1,20 @@
-﻿@model MovieListModel<SearchMovieModel>
+﻿@model Tuple<MovieListModel<SearchMovieModel>, SearchModel>
+
+    @{
+        var query = Model.Item2.Query;
+    }
 
 <div class="max-w-7xl mx-auto">
     <h1 class="text-4xl font-semibold mb-8 text-center">Movie Search Results</h1>
+    <form asp-controller="Movie" asp-action="Search" class="flex">
+        <input type="text" asp-for="@query" class="rounded-l-lg p-2 border-t border-b border-l text-gray-800 border-gray-200 bg-white focus:outline-none focus:border-purple-700" placeholder="Search movies...">
+        <button type="submit" class="px-4 rounded-r-lg bg-purple-700 text-white font-bold p-2 border-purple-900 border-t border-b border-r">Ara</button>
+    </form>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-        @if (Model.Results.Count != 0)
+        @if (Model.Item1.Results.Count != 0)
         {
-            @foreach (var movie in Model.Results)
+            @foreach (var movie in Model.Item1.Results)
             {
                 <div class="max-w-md rounded overflow-hidden shadow-xl bg-white">
                     <img class="w-full h-56 object-cover" src="https://image.tmdb.org/t/p/w500/@movie.PosterPath"
@@ -40,18 +48,18 @@
 
             <div class="flex">
                 <!-- Previous Button -->
-                @if (Model.Page > 1)
+                @if (Model.Item1.Page > 1)
                 {
-                    <a asp-controller="Movie" asp-action="Pagination" asp-route-query="@ViewBag.Query" asp-route-pageNumber="@(Model.Page-1)" id="previous" class=" pagination flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <a asp-controller="Movie" asp-action="Pagination" asp-route-query="@query" asp-route-pageNumber="@(Model.Item1.Page-1)" id="previous" class=" pagination flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4" />
                         </svg>
                         Previous
                     </a>
                 }
-                @if (Model.Page != Model.TotalPages)
+                @if (Model.Item1.Page != Model.Item1.TotalPages)
                 {
-                    <a asp-controller="Movie" asp-action="Pagination" asp-route-query="@ViewBag.Query" asp-route-pageNumber="@(Model.Page+1)" class="pagination flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <a asp-controller="Movie" asp-action="Pagination" asp-route-query="@query" asp-route-pageNumber="@(Model.Item1.Page+1)" class="pagination flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         Next
                         <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />

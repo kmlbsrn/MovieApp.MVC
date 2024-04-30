@@ -65,6 +65,6 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+app.UseStatusCodePagesWithRedirects("/Errors/Error{0}");
 
 app.Run();

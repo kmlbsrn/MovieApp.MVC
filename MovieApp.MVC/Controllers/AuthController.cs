@@ -95,6 +95,22 @@ namespace MovieApp.MVC.Controllers
 
                     var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
+
+                    var expireTime = token.Expiration;
+
+                    var now= DateTime.Now;
+
+                    var cookieExpirationTime = expireTime - now;
+
+
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = false,
+                        Expires = DateTime.UtcNow.Add(cookieExpirationTime),
+                        SameSite = SameSiteMode.None
+                    };
+
+
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
 

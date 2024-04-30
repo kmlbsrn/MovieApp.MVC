@@ -1,0 +1,21 @@
+﻿@model LoginViewModel
+
+
+<li id="loginFormContainer" class="hidden flex items-center space-x-4">
+    <form id="loginForm" asp-controller="Auth" asp-action="Login" class="flex" method="post">
+        <input type="email" id="email" name="email" asp-for="Email"
+               class="px-3 py-2 mx-1 border rounded-md focus:outline-none focus:border-indigo-500 text-black"
+               placeholder="Email">
+        <input type="password" id="password" name="password" asp-for="Password"
+               class="px-3 py-2 mx-1 border rounded-md focus:outline-none focus:border-indigo-500 text-black"
+               placeholder="Password">
+        <button type="submit"
+                class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 transition-colors">
+            Login
+        </button>
+        <button type="button" id="closeLoginForm"
+                class="text-red-500 text-xl hover:text-red-700">
+            &times;
+        </button>
+    </form>
+</li>
